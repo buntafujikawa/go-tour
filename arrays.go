@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "strings"
+)
 
 // [n]T 型は、型 T の n 個の変数の配列( array )を表します
 func main() {
@@ -16,6 +19,9 @@ func main() {
     slices()
     references()
     sliceLiterals()
+    sliceWithMake()
+    slicesOfSlices()
+    appendToSlice()
 }
 
 // これは最初の要素を含む half-open レンジを選択しますが、最後の要素は省かれます。
@@ -64,4 +70,56 @@ func sliceLiterals() {
         {13, true},
     }
     fmt.Println(s)
+}
+
+func sliceWithMake() {
+    a := make([]int, 5)
+    printSlice("a", a)
+
+    b := make([]int, 0, 5)
+    printSlice("b", b)
+
+    c := b[:2]
+    printSlice("c", c)
+
+    d := c[2:5]
+    printSlice("d", d)
+}
+
+func printSlice(s string, x []int) {
+    fmt.Printf("%s len=%d cap=%d %v\n", s, len(x), cap(x), x)
+}
+
+func slicesOfSlices() {
+    board := [][]string{
+        {"_", "_", "_"},
+        {"_", "_", "_"},
+        {"_", "_", "_"},
+    }
+
+    board[0][0] = "X"
+    board[2][2] = "O"
+    board[1][2] = "X"
+    board[1][0] = "O"
+    board[0][2] = "X"
+
+    for i := 0; i < len(board); i++ {
+        fmt.Printf("%s\n", strings.Join(board[i], " "))
+
+    }
+}
+
+func appendToSlice() {
+    var s []int
+    printSlice2(s)
+    
+    s = append(s, 1)
+    printSlice2(s)
+    
+    s = append(s, 2, 3, 4)
+    printSlice2(s)
+}
+
+func printSlice2(s []int) {
+    fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
